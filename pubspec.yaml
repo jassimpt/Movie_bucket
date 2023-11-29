@@ -30,8 +30,10 @@ environment:
 dependencies:
   carousel_slider: ^4.2.1
   cupertino_icons: ^1.0.2
+  dio: ^5.3.4
   flutter:
     sdk: flutter
+  flutter_rating_bar: ^4.0.1
   google_fonts: ^6.1.0
   iconsax: ^0.0.8
 

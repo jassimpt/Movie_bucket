@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:netflix_clone/views/pages/HomeScreen.dart';
+import 'package:netflix_clone/views/pages/Home_Screen.dart';
 import 'package:netflix_clone/views/pages/onboarding.dart';
 import 'package:netflix_clone/views/widgets/bottom_nav.dart';
 

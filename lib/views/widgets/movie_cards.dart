@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:netflix_clone/constants/api_constants.dart';
+import 'package:netflix_clone/services/apiservice.dart';
 
 class MovieCards extends StatelessWidget {
-  const MovieCards({
+  AsyncSnapshot snapshot;
+
+  MovieCards({
+    required this.snapshot,
     super.key,
     required this.size,
   });
@@ -15,13 +20,18 @@ class MovieCards extends StatelessWidget {
       child: ListView.builder(
         physics: BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
-        itemCount: 10,
+        itemCount: snapshot.data.length,
         itemBuilder: (context, index) {
+          final data = snapshot.data[index];
           return Padding(
             padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
             child: Container(
               width: size.width * 0.4,
               decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: NetworkImage(
+                          "${ApiConstants().posterurl}${data.poster_path}"),
+                      fit: BoxFit.cover),
                   color: Colors.amber,
                   borderRadius: BorderRadius.all(Radius.circular(20))),
             ),

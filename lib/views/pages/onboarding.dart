@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:netflix_clone/views/widgets/bottom_nav.dart';
+import 'package:netflix_clone/views/widgets/custom_button.dart';
 
 class OnBoarding extends StatelessWidget {
   const OnBoarding({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Column(
         children: [
@@ -32,13 +33,7 @@ class OnBoarding extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          OutlinedButton(
-              onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const BottomNavigation()));
-              },
-              child:
-                  Text('Enter now', style: GoogleFonts.firaSans(fontSize: 18)))
+          CustomButton(size: size)
         ],
       ),
     );
