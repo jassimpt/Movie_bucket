@@ -10,8 +10,10 @@ class MovieModel {
   double? vote_average;
   String? name;
   String? original_name;
+  String? first_air_date;
 
   MovieModel({
+    required this.first_air_date,
     required this.name,
     required this.original_name,
     required this.id,
@@ -27,6 +29,7 @@ class MovieModel {
 
   factory MovieModel.fromJson(Map<String, dynamic> json) {
     return MovieModel(
+        first_air_date: json["first_air_date"] ?? "nodata",
         original_name: json["original_name"] ?? "nodata",
         name: json["name"] ?? "nodata",
         id: json["id"] ?? "no data",

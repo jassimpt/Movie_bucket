@@ -27,9 +27,9 @@ class ShowGrid extends StatelessWidget {
           children: [
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
+                padding: const EdgeInsets.only(top: 10),
                 child: Container(
-                  width: size.width * 0.4,
+                  width: size.width * 0.32,
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           image: NetworkImage(

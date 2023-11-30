@@ -17,14 +17,14 @@ class MovieScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CardHeadings(heading: 'Top Rated', left: 20, top: 20),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             FutureBuilder(
               future: ApiService().getMovies(url: ApiConstants().trendingurl),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 } else if (snapshot.hasData) {
                   return Expanded(
                     child: ListView.builder(
@@ -48,36 +48,60 @@ class MovieScreen extends StatelessWidget {
                                         filterQuality: FilterQuality.high)),
                               ),
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 8, right: 10, top: 20),
-                                  child: Text(
-                                    moviedata.title!,
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.clip,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: RatingBarIndicator(
-                                    rating: moviedata.vote_average! / 2,
-                                    itemBuilder: (context, index) => Icon(
-                                      Icons.star,
-                                      color: Colors.redAccent,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8, right: 10, top: 20),
+                                    child: Text(
+                                      moviedata.title!,
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.clip,
                                     ),
-                                    itemCount: 5,
-                                    itemSize: 20,
-                                    direction: Axis.horizontal,
                                   ),
-                                ),
-                                Text("${moviedata.vote_average!}")
-                              ],
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8),
+                                    child: RatingBarIndicator(
+                                      rating: moviedata.vote_average! / 2,
+                                      itemBuilder: (context, index) =>
+                                          const Icon(
+                                        Icons.star,
+                                        color: Colors.redAccent,
+                                      ),
+                                      itemCount: 5,
+                                      itemSize: 20,
+                                      direction: Axis.horizontal,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8),
+                                    child: Text(
+                                      "Rating: ${moviedata.vote_average!}",
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8),
+                                    child: Text(
+                                        "Lang: ${moviedata.original_language}",
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8),
+                                    child: Text(
+                                        "Release: ${moviedata.release_date}",
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                  )
+                                ],
+                              ),
                             )
                           ],
                         );
@@ -85,7 +109,7 @@ class MovieScreen extends StatelessWidget {
                     ),
                   );
                 } else {
-                  return Text('Error');
+                  return Text(snapshot.error.toString());
                 }
               },
             )
