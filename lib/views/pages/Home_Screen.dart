@@ -7,6 +7,7 @@ import 'package:netflix_clone/services/apiservice.dart';
 import 'package:netflix_clone/views/widgets/card_headings.dart';
 import 'package:netflix_clone/views/widgets/movie_cards.dart';
 import 'package:netflix_clone/views/widgets/movie_carousal.dart';
+import 'package:netflix_clone/views/widgets/tv_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -135,7 +136,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: CircularProgressIndicator(),
                         );
                       } else if (tvsnapshot.hasData) {
-                        return MovieCards(snapshot: tvsnapshot, size: size);
+                        return TvCard(
+                          size: size,
+                          snapshot: tvsnapshot,
+                        );
                       } else {
                         return Text('Data Error');
                       }
@@ -152,7 +156,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: CircularProgressIndicator(),
                         );
                       } else if (snapshot.hasData) {
-                        return MovieCards(snapshot: snapshot, size: size);
+                        return TvCard(
+                          size: size,
+                          snapshot: snapshot,
+                        );
+                        ;
                       } else {
                         return Text('ERror');
                       }

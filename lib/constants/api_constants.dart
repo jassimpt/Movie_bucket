@@ -1,4 +1,10 @@
 class ApiConstants {
+  // final basesimilarurlmovie = "https://api.themoviedb.org/3/movie/";
+  final similarend = "/similar?api_key=62993259b09bd60f498f3221ef24fe9c#";
+  //
+  final base = "https://api.themoviedb.org/3/";
+  final castend = "/credits?api_key=62993259b09bd60f498f3221ef24fe9c";
+
   final populartvshowsurl =
       "https://api.themoviedb.org/3/tv/popular?api_key=62993259b09bd60f498f3221ef24fe9c#";
   final trendingurl =
@@ -15,7 +21,4 @@ class ApiConstants {
   final airingtodaturl =
       "https://api.themoviedb.org/3/tv/airing_today?api_key=62993259b09bd60f498f3221ef24fe9c#";
   final posterurl = "https://image.tmdb.org/t/p/w500";
-
-  final basesimilarurlmovie = "https://api.themoviedb.org/3/movie/";
-  final endpoint = "/similar?api_key=62993259b09bd60f498f3221ef24fe9c#";
 }

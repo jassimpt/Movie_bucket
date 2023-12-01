@@ -24,9 +24,7 @@ class ApiService {
     }
   }
 
-  Future<List<CastModel>> getcasts({required id}) async {
-    final casturl =
-        "https://api.themoviedb.org/3/movie/${id}/credits?api_key=62993259b09bd60f498f3221ef24fe9c";
+  Future<List<CastModel>> getcasts({required casturl}) async {
     try {
       final response = await dio.get(casturl);
       if (response.statusCode == 200) {
@@ -43,8 +41,6 @@ class ApiService {
   }
 
   Future<List<MovieModel>> getSimilarMovies({required similarurl}) async {
-    // final similarurl =
-    // "${ApiConstants().basesimilarurlmovie}${id}${ApiConstants().endpoint}";
     try {
       final response = await dio.get(similarurl);
       if (response.statusCode == 200) {
@@ -53,6 +49,23 @@ class ApiService {
         return similarmovie.map((movie) => MovieModel.fromJson(movie)).toList();
       } else {
         throw Exception('Error');
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<List<MovieModel>> searchMovies({required searchurl}) async {
+    try {
+      final response = await dio.get(searchurl);
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> searchdata = response.data;
+        final List<dynamic> searchmovies = searchdata["results"];
+        return searchmovies
+            .map((search) => MovieModel.fromJson(search))
+            .toList();
+      } else {
+        throw Exception('function error');
       }
     } catch (e) {
       throw Exception(e);

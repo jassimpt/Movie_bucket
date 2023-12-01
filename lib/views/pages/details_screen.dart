@@ -4,18 +4,42 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:netflix_clone/constants/api_constants.dart';
 import 'package:netflix_clone/services/apiservice.dart';
+import 'package:netflix_clone/views/widgets/details_card.dart';
 
 class DetailsScreen extends StatelessWidget {
-  String date;
-  dynamic moviedata;
-  DetailsScreen({super.key, required this.moviedata, required this.date});
+  String type;
+  String name;
+  String casturl;
+  String? date;
+  dynamic data;
+  DetailsScreen(
+      {super.key,
+      required this.type,
+      required this.name,
+      required this.data,
+      required this.date,
+      required this.casturl});
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    // String date = moviedata.release_date;
-    DateTime releasedate = DateTime.parse(date);
-    String formateddate = DateFormat('yyyy').format(releasedate);
+
+    DateTime? releasedate;
+
+    if (date != null && date!.isNotEmpty) {
+      try {
+        releasedate = DateTime.parse(date!);
+      } catch (e) {
+        releasedate = null;
+      }
+    } else {
+      releasedate = DateTime(0000, 0, 00);
+    }
+
+    String formattedDate = releasedate != null
+        ? DateFormat('yyyy').format(releasedate)
+        : 'Date Not Available';
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 24, 24, 24),
       body: SingleChildScrollView(
@@ -31,7 +55,7 @@ class DetailsScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                         image: DecorationImage(
                             image: NetworkImage(
-                                "${ApiConstants().posterurl}${moviedata.backdrop_path}"),
+                                "${ApiConstants().posterurl}${data.backdrop_path}"),
                             filterQuality: FilterQuality.high,
                             fit: BoxFit.cover)),
                   ),
@@ -71,7 +95,7 @@ class DetailsScreen extends StatelessWidget {
                           color: Colors.amber,
                           image: DecorationImage(
                               image: NetworkImage(
-                                  "${ApiConstants().posterurl}${moviedata.poster_path}"),
+                                  "${ApiConstants().posterurl}${data.poster_path}"),
                               filterQuality: FilterQuality.high,
                               fit: BoxFit.cover)),
                     ),
@@ -85,13 +109,13 @@ class DetailsScreen extends StatelessWidget {
                         Container(
                           width: size.width * 0.5,
                           child: Text(
-                            "${moviedata.title} (${formateddate})",
+                            "${name} (${formattedDate})",
                             style: GoogleFonts.poppins(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                         ),
                         RatingBarIndicator(
-                          rating: moviedata.vote_average! / 2,
+                          rating: data.vote_average! / 2,
                           itemBuilder: (context, index) => const Icon(
                             Icons.star,
                             color: Colors.redAccent,
@@ -125,7 +149,7 @@ class DetailsScreen extends StatelessWidget {
                   SizedBox(
                     width: size.width,
                     child: Text(
-                      moviedata.overview,
+                      data.overview,
                       style: GoogleFonts.poppins(fontSize: 17),
                     ),
                   ),
@@ -143,42 +167,18 @@ class DetailsScreen extends StatelessWidget {
                   SizedBox(
                     height: size.height * .25,
                     child: FutureBuilder(
-                        future: ApiService().getcasts(id: moviedata.id),
+                        future: ApiService().getcasts(casturl: casturl),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return Center(child: CircularProgressIndicator());
                           } else if (snapshot.hasData) {
-                            return ListView.builder(
-                                itemCount: snapshot.data!.length,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) {
-                                  final castdata = snapshot.data![index];
-                                  return Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            bottom: 5, left: 8, right: 8),
-                                        child: Container(
-                                          height: size.height * .2,
-                                          width: size.width * .25,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              image: DecorationImage(
-                                                  image: NetworkImage(
-                                                      "${ApiConstants().posterurl}${castdata.profile_path}"),
-                                                  fit: BoxFit.cover)),
-                                        ),
-                                      ),
-                                      Text(
-                                        castdata.name!,
-                                        style:
-                                            GoogleFonts.poppins(fontSize: 13),
-                                      )
-                                    ],
-                                  );
-                                });
+                            return DetailsCard(
+                              iscast: true,
+                              size: size,
+                              snapshot: snapshot,
+                              width: size.width * .25,
+                            );
                           } else {
                             return const Text('Error');
                           }
@@ -197,7 +197,7 @@ class DetailsScreen extends StatelessWidget {
                     child: FutureBuilder(
                         future: ApiService().getSimilarMovies(
                             similarurl:
-                                "${ApiConstants().basesimilarurlmovie}${moviedata.id}${ApiConstants().endpoint}"),
+                                "${ApiConstants().base}${type}${data.id}${ApiConstants().similarend}"),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
@@ -205,26 +205,11 @@ class DetailsScreen extends StatelessWidget {
                               child: CircularProgressIndicator(),
                             );
                           } else if (snapshot.hasData) {
-                            return ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: snapshot.data!.length,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 5, left: 8, right: 8),
-                                    child: Container(
-                                      height: size.height * .2,
-                                      width: size.width * .35,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          image: DecorationImage(
-                                              image: NetworkImage(
-                                                  "${ApiConstants().posterurl}${snapshot.data![index].poster_path}"),
-                                              fit: BoxFit.cover)),
-                                    ),
-                                  );
-                                });
+                            return DetailsCard(
+                                iscast: false,
+                                size: size,
+                                snapshot: snapshot,
+                                width: size.width * .35);
                           } else {
                             return Text('ERror');
                           }

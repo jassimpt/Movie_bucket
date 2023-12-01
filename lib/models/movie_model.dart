@@ -29,7 +29,7 @@ class MovieModel {
 
   factory MovieModel.fromJson(Map<String, dynamic> json) {
     return MovieModel(
-        first_air_date: json["first_air_date"] ?? "nodata",
+        first_air_date: json["first_air_date"] ?? "2005-03-26",
         original_name: json["original_name"] ?? "nodata",
         name: json["name"] ?? "nodata",
         id: json["id"] ?? "no data",

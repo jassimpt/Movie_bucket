@@ -31,7 +31,11 @@ class MovieCarousal extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => DetailsScreen(
-                          moviedata: moviedata,
+                          type: "movie/",
+                          name: moviedata.title,
+                          casturl:
+                              "${ApiConstants().base}movie/${moviedata.id}${ApiConstants().castend}",
+                          data: moviedata,
                           date: moviedata.release_date,
                         )));
               },

@@ -3,10 +3,10 @@ import 'package:netflix_clone/constants/api_constants.dart';
 import 'package:netflix_clone/services/apiservice.dart';
 import 'package:netflix_clone/views/pages/details_screen.dart';
 
-class MovieCards extends StatelessWidget {
+class TvCard extends StatelessWidget {
   AsyncSnapshot snapshot;
 
-  MovieCards({
+  TvCard({
     required this.snapshot,
     super.key,
     required this.size,
@@ -16,6 +16,7 @@ class MovieCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ApiConstants api = ApiConstants();
     return SizedBox(
       height: size.height * 0.25,
       child: ListView.builder(
@@ -28,12 +29,12 @@ class MovieCards extends StatelessWidget {
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => DetailsScreen(
-                        type: "movie/",
-                        name: data.title,
+                        type: "tv/",
+                        name: data.name,
                         casturl:
-                            "${ApiConstants().base}movie/${data.id}${ApiConstants().castend}",
+                            "${api.base}tv/${data.id}${ApiConstants().castend}",
                         data: data,
-                        date: data.release_date,
+                        date: data.first_air_date,
                       )));
             },
             child: Padding(
