@@ -1,43 +1,18 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:netflix_clone/constants/api_constants.dart';
-import 'package:netflix_clone/models/movie_model.dart';
-import 'package:netflix_clone/services/apiservice.dart';
+import 'package:netflix_clone/controller/showcontroller.dart';
 import 'package:netflix_clone/views/widgets/card_headings.dart';
 import 'package:netflix_clone/views/widgets/movie_cards.dart';
 import 'package:netflix_clone/views/widgets/movie_carousal.dart';
 import 'package:netflix_clone/views/widgets/tv_card.dart';
+import 'package:provider/provider.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  late Future<List<MovieModel>> trendingmovies;
-  late Future<List<MovieModel>> topratedmovies;
-  late Future<List<MovieModel>> upcomingmovies;
-  late Future<List<MovieModel>> populartvshows;
-  late Future<List<MovieModel>> topratedtv;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    trendingmovies = ApiService().getMovies(url: ApiConstants().trendingurl);
-    topratedmovies = ApiService().getMovies(url: ApiConstants().topratedurl);
-    upcomingmovies = ApiService().getMovies(url: ApiConstants().upcomingurl);
-    populartvshows =
-        ApiService().getMovies(url: ApiConstants().populartvshowsurl);
-    topratedtv = ApiService().getMovies(url: ApiConstants().topratedtvurl);
-
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final moviecontroller = Provider.of<ShowController>(context, listen: false);
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
@@ -68,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 CardHeadings(heading: 'Trending Movies', left: 20, top: 0),
                 SizedBox(
                   child: FutureBuilder(
-                      future: trendingmovies,
+                      future: moviecontroller.trendingmovies,
                       builder: (context, trendingsnapshot) {
                         if (trendingsnapshot.hasError) {
                           return Center(
@@ -87,10 +62,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         }
                       }),
                 ),
-                CardHeadings(heading: 'Top Rated', left: 20, top: 10),
+                CardHeadings(heading: 'Top From India', left: 20, top: 10),
                 SizedBox(
                   child: FutureBuilder(
-                    future: topratedmovies,
+                    future: moviecontroller.topratedmovies,
                     builder: (context, topratedsnapshot) {
                       if (topratedsnapshot.hasData) {
                         return MovieCards(
@@ -109,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 CardHeadings(left: 20, top: 20, heading: 'Upcoming Movies'),
                 SizedBox(
                   child: FutureBuilder(
-                    future: upcomingmovies,
+                    future: moviecontroller.upcomingmovies,
                     builder: (context, upcomingsnapshot) {
                       if (upcomingsnapshot.connectionState ==
                           ConnectionState.waiting) {
@@ -120,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         return MovieCards(
                             snapshot: upcomingsnapshot, size: size);
                       } else {
-                        return Text('Error');
+                        return Text(upcomingsnapshot.error.toString());
                       }
                     },
                   ),
@@ -128,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 CardHeadings(heading: 'Popular Tv Shows', left: 20, top: 20),
                 SizedBox(
                   child: FutureBuilder(
-                    future: populartvshows,
+                    future: moviecontroller.populartvshows,
                     builder: (context, tvsnapshot) {
                       if (tvsnapshot.connectionState ==
                           ConnectionState.waiting) {
@@ -149,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 CardHeadings(heading: 'Trending Tv Shows', left: 20, top: 20),
                 SizedBox(
                   child: FutureBuilder(
-                    future: topratedtv,
+                    future: moviecontroller.topratedtv,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(
@@ -160,7 +135,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           size: size,
                           snapshot: snapshot,
                         );
-                        ;
                       } else {
                         return Text('ERror');
                       }

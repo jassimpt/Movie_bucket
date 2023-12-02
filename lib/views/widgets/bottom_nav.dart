@@ -1,39 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:netflix_clone/controller/bottom_provider.dart';
 import 'package:netflix_clone/views/pages/Home_Screen.dart';
 import 'package:netflix_clone/views/pages/movies_screen.dart';
 import 'package:netflix_clone/views/pages/search_screen.dart';
 import 'package:netflix_clone/views/pages/tvshows_scree.dart';
+import 'package:provider/provider.dart';
 
-class BottomNavigation extends StatefulWidget {
+class BottomNavigation extends StatelessWidget {
   const BottomNavigation({super.key});
 
   @override
-  State<BottomNavigation> createState() => _BottomNavigationState();
-}
-
-class _BottomNavigationState extends State<BottomNavigation> {
-  int selectedindex = 0;
-  final pages = [
-    const HomeScreen(),
-    const SearchScreen(),
-    const TvShowsScreen(),
-    const MovieScreen()
-  ];
-
-  pagechanger(int index) {
-    setState(() {
-      selectedindex = index;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final pages = [
+      const HomeScreen(),
+      const SearchScreen(),
+      const TvShowsScreen(),
+      const MovieScreen()
+    ];
+    final bottomProvider = Provider.of<BottomProvider>(context, listen: false);
     return Scaffold(
       bottomNavigationBar: NavigationBar(
         indicatorColor: Colors.black.withOpacity(0.4),
-        selectedIndex: selectedindex,
-        onDestinationSelected: pagechanger,
+        selectedIndex: bottomProvider.selectedindex,
+        onDestinationSelected: (int index) => bottomProvider.pagechanger(index),
         destinations: [
           const NavigationDestination(
             icon: Icon(Iconsax.home, color: Colors.white),
@@ -58,7 +48,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
               label: 'Movies')
         ],
       ),
-      body: pages[selectedindex],
+      body: pages[Provider.of<BottomProvider>(context).selectedindex],
     );
   }
 }

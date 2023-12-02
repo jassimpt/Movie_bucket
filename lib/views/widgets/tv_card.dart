@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:netflix_clone/constants/api_constants.dart';
-import 'package:netflix_clone/services/apiservice.dart';
 import 'package:netflix_clone/views/pages/details_screen.dart';
 
 class TvCard extends StatelessWidget {

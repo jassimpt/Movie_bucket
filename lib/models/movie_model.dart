@@ -7,7 +7,7 @@ class MovieModel {
   String? overview;
   String? poster_path;
   String? release_date;
-  double? vote_average;
+  dynamic vote_average;
   String? name;
   String? original_name;
   String? first_air_date;

@@ -115,7 +115,7 @@ class DetailsScreen extends StatelessWidget {
                           ),
                         ),
                         RatingBarIndicator(
-                          rating: data.vote_average! / 2,
+                          rating: data.vote_average / 2,
                           itemBuilder: (context, index) => const Icon(
                             Icons.star,
                             color: Colors.redAccent,

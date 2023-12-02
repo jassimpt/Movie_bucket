@@ -22,12 +22,15 @@ class DetailsCard extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           final data = snapshot.data![index];
+          String name;
 
           String image;
           if (iscast) {
             image = data.profile_path ?? "";
+            name = data.name ?? "no name";
           } else {
             image = data.poster_path ?? "";
+            name = data.title ?? "No name";
           }
 
           return GestureDetector(
@@ -59,7 +62,7 @@ class DetailsCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  data.name!,
+                  name,
                   style: GoogleFonts.poppins(fontSize: 13),
                 )
               ],

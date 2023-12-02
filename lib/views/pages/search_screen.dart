@@ -1,80 +1,84 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:netflix_clone/models/movie_model.dart';
-import 'package:netflix_clone/services/apiservice.dart';
-// Import the package for debounce
+import 'package:netflix_clone/constants/api_constants.dart';
+import 'package:netflix_clone/controller/search_provider.dart';
+import 'package:netflix_clone/views/pages/details_screen.dart';
+import 'package:provider/provider.dart';
 
-class SearchScreen extends StatefulWidget {
+class SearchScreen extends StatelessWidget {
   const SearchScreen({Key? key}) : super(key: key);
 
   @override
-  _SearchScreenState createState() => _SearchScreenState();
-}
-
-class _SearchScreenState extends State<SearchScreen> {
-  final TextEditingController queryController = TextEditingController();
-  final ApiService apiService = ApiService();
-  List<MovieModel> searchResults = [];
-
-  void onSearchChanged() {
-    searchMovies();
-  }
-
-  void searchMovies() async {
-    String query = queryController.text.trim();
-    if (query.isNotEmpty) {
-      try {
-        final searchUrl =
-            "https://api.themoviedb.org/3/search/tv?query=$query&api_key=62993259b09bd60f498f3221ef24fe9c";
-        List<MovieModel> movies =
-            await apiService.searchMovies(searchurl: searchUrl);
-        setState(() {
-          searchResults = movies;
-        });
-      } catch (e) {
-        print("Error: $e");
-        // Handle error accordingly (e.g., show error message)
-      }
-    } else {
-      setState(() {
-        searchResults = [];
-      });
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final searchcontroller = Provider.of<SearchProvider>(context);
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: queryController,
-                  decoration: InputDecoration(
-                    hintText: 'Search Movies',
-                    prefixIcon: Icon(Iconsax.search_favorite),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    onChanged: (value) {
+                      searchcontroller.searchMovies(value);
+                    },
+                    controller: searchcontroller.queryController,
+                    decoration: InputDecoration(
+                      hintText: 'Search Movies',
+                      prefixIcon: const Icon(Iconsax.search_favorite),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: searchResults.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(searchResults[index].name!),
-                      // Display other movie details as needed
-                    );
-                  },
+                SizedBox(
+                  height: size.height,
+                  child: searchcontroller.searchResults.isEmpty
+                      ? const Center(
+                          child: Text('Search Anything'),
+                        )
+                      : GridView.builder(
+                          itemCount: searchcontroller.searchResults.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  mainAxisSpacing: 8,
+                                  crossAxisSpacing: 8,
+                                  crossAxisCount: 3,
+                                  childAspectRatio: 1 / 1.4),
+                          itemBuilder: (context, index) {
+                            final searchdata =
+                                searchcontroller.searchResults[index];
+
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => DetailsScreen(
+                                        type: "movie/",
+                                        name: searchdata.title!,
+                                        data: searchdata,
+                                        date: searchdata.release_date,
+                                        casturl:
+                                            "${ApiConstants().base}movie/${searchdata.id}${ApiConstants().castend}")));
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: NetworkImage(
+                                            "${ApiConstants().posterurl}${searchdata.poster_path}"),
+                                        fit: BoxFit.fill,
+                                        filterQuality: FilterQuality.high),
+                                    color: Colors.amber,
+                                    borderRadius: BorderRadius.circular(20)),
+                              ),
+                            );
+                          }),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

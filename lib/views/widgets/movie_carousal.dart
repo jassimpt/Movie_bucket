@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:netflix_clone/constants/api_constants.dart';
-import 'package:netflix_clone/services/apiservice.dart';
 import 'package:netflix_clone/views/pages/details_screen.dart';
 
 class MovieCarousal extends StatelessWidget {

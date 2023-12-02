@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:netflix_clone/constants/api_constants.dart';
-import 'package:netflix_clone/services/apiservice.dart';
+import 'package:netflix_clone/controller/showcontroller.dart';
 import 'package:netflix_clone/views/widgets/card_headings.dart';
 import 'package:netflix_clone/views/widgets/show_grid.dart';
+import 'package:provider/provider.dart';
 
 class TvShowsScreen extends StatelessWidget {
   const TvShowsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final moviecontroller = Provider.of<ShowController>(context, listen: false);
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
@@ -27,8 +28,7 @@ class TvShowsScreen extends StatelessWidget {
                 child: SizedBox(
                   height: size.height * 0.45,
                   child: FutureBuilder(
-                    future: ApiService()
-                        .getMovies(url: ApiConstants().topratedtvurl),
+                    future: moviecontroller.topratedtv,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(
@@ -57,8 +57,7 @@ class TvShowsScreen extends StatelessWidget {
                 child: SizedBox(
                   height: size.height * 0.45,
                   child: FutureBuilder(
-                    future: ApiService()
-                        .getMovies(url: ApiConstants().trendingtvurl),
+                    future: moviecontroller.trendingtv,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(
@@ -87,8 +86,7 @@ class TvShowsScreen extends StatelessWidget {
                 child: SizedBox(
                   height: size.height * 0.45,
                   child: FutureBuilder(
-                    future: ApiService()
-                        .getMovies(url: ApiConstants().airingtodaturl),
+                    future: moviecontroller.airingtv,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(

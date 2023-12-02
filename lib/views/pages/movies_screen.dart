@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:netflix_clone/constants/api_constants.dart';
-import 'package:netflix_clone/services/apiservice.dart';
+import 'package:netflix_clone/controller/showcontroller.dart';
 import 'package:netflix_clone/views/pages/details_screen.dart';
 import 'package:netflix_clone/views/widgets/card_headings.dart';
+import 'package:provider/provider.dart';
 
 class MovieScreen extends StatelessWidget {
   const MovieScreen({super.key});
@@ -12,17 +13,18 @@ class MovieScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final moviecontroller = Provider.of<ShowController>(context, listen: false);
     return Scaffold(
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CardHeadings(heading: 'Top Rated', left: 20, top: 20),
+            CardHeadings(heading: 'Trending', left: 20, top: 20),
             const SizedBox(
               height: 20,
             ),
             FutureBuilder(
-              future: ApiService().getMovies(url: ApiConstants().trendingurl),
+              future: moviecontroller.trendingmovies,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const CircularProgressIndicator();
