@@ -7,7 +7,7 @@ class SearchProvider extends ChangeNotifier {
   final ApiService apiService = ApiService();
   List<MovieModel> searchResults = [];
   void searchMovies(String query) async {
-    // String query = queryController.text.trim();
+    
     if (query.isNotEmpty) {
       try {
         final searchUrl =

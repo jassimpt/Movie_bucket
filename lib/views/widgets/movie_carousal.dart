@@ -53,7 +53,8 @@ class MovieCarousal extends StatelessWidget {
                               filterQuality: FilterQuality.high),
                           color: Colors.amber,
                           border: Border.all(color: Colors.white),
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(20))),
                     )
                   ],
                 ),

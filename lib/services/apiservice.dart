@@ -14,7 +14,7 @@ class ApiService {
       if (response.statusCode == 200) {
         final Map<String, dynamic> respdata = response.data;
         final List<dynamic> results = respdata["results"];
-        // print(respdata);
+       
         return results.map((movie) => MovieModel.fromJson(movie)).toList();
       } else {
         throw Exception("function error ");
@@ -30,7 +30,7 @@ class ApiService {
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = response.data;
         final List<dynamic> results = data["cast"];
-        print(results);
+     
         return results.map((cast) => CastModel.fromJson(cast)).toList();
       } else {
         throw Exception('Error funtion');

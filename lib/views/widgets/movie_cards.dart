@@ -18,7 +18,7 @@ class MovieCards extends StatelessWidget {
     return SizedBox(
       height: size.height * 0.25,
       child: ListView.builder(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
         itemCount: snapshot.data.length,
         itemBuilder: (context, index) {
@@ -45,7 +45,7 @@ class MovieCards extends StatelessWidget {
                             "${ApiConstants().posterurl}${data.poster_path}"),
                         fit: BoxFit.cover),
                     color: Colors.amber,
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                    borderRadius: const BorderRadius.all(Radius.circular(20))),
               ),
             ),
           );
