@@ -51,9 +51,7 @@ class HomeScreen extends StatelessWidget {
                           );
                         } else if (trendingsnapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
+                          return CarousalShimmer(size: size);
                         } else {
                           return MovieCarousal(
                             size: size,
@@ -74,7 +72,7 @@ class HomeScreen extends StatelessWidget {
                         );
                       } else if (topratedsnapshot.connectionState ==
                           ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
+                        return CardShimmer(size: size);
                       } else {
                         return Text('Error');
                       }
@@ -88,9 +86,7 @@ class HomeScreen extends StatelessWidget {
                     builder: (context, upcomingsnapshot) {
                       if (upcomingsnapshot.connectionState ==
                           ConnectionState.waiting) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
+                        return CardShimmer(size: size);
                       } else if (upcomingsnapshot.hasData) {
                         return MovieCards(
                             snapshot: upcomingsnapshot, size: size);
@@ -107,9 +103,7 @@ class HomeScreen extends StatelessWidget {
                     builder: (context, tvsnapshot) {
                       if (tvsnapshot.connectionState ==
                           ConnectionState.waiting) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
+                        return CardShimmer(size: size);
                       } else if (tvsnapshot.hasData) {
                         return TvCard(
                           size: size,
@@ -127,9 +121,7 @@ class HomeScreen extends StatelessWidget {
                     future: moviecontroller.topratedtv,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
+                        return CardShimmer(size: size);
                       } else if (snapshot.hasData) {
                         return TvCard(
                           size: size,

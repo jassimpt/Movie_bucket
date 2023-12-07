@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:netflix_clone/constants/api_constants.dart';
 import 'package:netflix_clone/views/pages/details_screen.dart';
+import 'package:shimmer/shimmer.dart';
 
 class DetailsCard extends StatelessWidget {
   DetailsCard(
@@ -65,6 +66,45 @@ class DetailsCard extends StatelessWidget {
                   name,
                   style: GoogleFonts.poppins(fontSize: 13),
                 )
+              ],
+            ),
+          );
+        });
+  }
+}
+
+class DetailsCardShimmer extends StatelessWidget {
+  DetailsCardShimmer({
+    super.key,
+    required this.size,
+    required this.width,
+  });
+
+  final Size size;
+  double width;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        itemCount: 5,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          return Shimmer.fromColors(
+            baseColor: Colors.grey[600]!,
+            highlightColor: Colors.grey[100]!,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5, left: 8, right: 8),
+                  child: Container(
+                    height: size.height * .2,
+                    width: width,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
               ],
             ),
           );

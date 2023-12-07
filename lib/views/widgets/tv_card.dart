@@ -45,7 +45,7 @@ class TvCard extends StatelessWidget {
                         image: NetworkImage(
                             "${ApiConstants().posterurl}${data.poster_path}"),
                         fit: BoxFit.cover),
-                    color: Colors.amber,
+                    color: Colors.black.withOpacity(0.2),
                     borderRadius: const BorderRadius.all(Radius.circular(20))),
               ),
             ),

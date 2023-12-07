@@ -66,12 +66,13 @@ class SearchScreen extends StatelessWidget {
                               },
                               child: Container(
                                 decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.white),
                                     image: DecorationImage(
                                         image: NetworkImage(
                                             "${ApiConstants().posterurl}${searchdata.poster_path}"),
                                         fit: BoxFit.fill,
                                         filterQuality: FilterQuality.high),
-                                    color: Colors.amber,
+                                    color: Colors.black.withOpacity(0.2),
                                     borderRadius: BorderRadius.circular(20)),
                               ),
                             );

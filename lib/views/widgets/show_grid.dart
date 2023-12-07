@@ -48,7 +48,7 @@ class ShowGrid extends StatelessWidget {
                             image: NetworkImage(
                                 "${ApiConstants().posterurl}${tvshowdata.poster_path}"),
                             fit: BoxFit.fill),
-                        color: Colors.amber,
+                        color: Colors.black.withOpacity(0.2),
                         borderRadius:
                             const BorderRadius.all(Radius.circular(20))),
                   ),

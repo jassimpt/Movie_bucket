@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:netflix_clone/constants/api_constants.dart';
 import 'package:netflix_clone/services/apiservice.dart';
@@ -127,6 +128,23 @@ class DetailsScreen extends StatelessWidget {
                       ],
                     ),
                   ),
+                  Positioned(
+                    top: 50,
+                    left: 20,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: size.height * .05,
+                        width: size.width * .12,
+                        decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.4),
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Icon(Iconsax.arrow_left_3),
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
@@ -171,7 +189,10 @@ class DetailsScreen extends StatelessWidget {
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return Center(child: CircularProgressIndicator());
+                            return DetailsCardShimmer(
+                              size: size,
+                              width: size.width * .25,
+                            );
                           } else if (snapshot.hasData) {
                             return DetailsCard(
                               iscast: true,
@@ -201,9 +222,8 @@ class DetailsScreen extends StatelessWidget {
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
+                            return DetailsCardShimmer(
+                                size: size, width: size.width * .35);
                           } else if (snapshot.hasData) {
                             return DetailsCard(
                                 iscast: false,
